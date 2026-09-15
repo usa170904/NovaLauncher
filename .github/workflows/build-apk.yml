@@ -25,6 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
       
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -38,8 +39,14 @@ jobs:
           accept-android-sdk-licenses: true
           packages: 'build-tools;35.0.0 platforms;android-35 ndk;26.1.10909125 cmdline-tools;latest'
       
+      - name: Clean npm cache
+        run: npm cache clean --force
+      
       - name: Install dependencies with legacy peer deps
         run: npm install --legacy-peer-deps --no-audit --no-fund
+        env:
+          npm_config_fetch_timeout: 120000
+          npm_config_read_timeout: 120000
       
       - name: Make gradlew executable
         run: chmod +x android/gradlew
