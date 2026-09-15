@@ -37,16 +37,19 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           accept-android-sdk-licenses: true
-          packages: 'build-tools;35.0.0 platforms;android-35 ndk;26.1.10909125'
+          packages: 'build-tools;35.0.0 platforms;android-35 ndk;26.1.10909125 cmdline-tools;latest'
       
       - name: Install dependencies
         run: npm install
       
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+      
       - name: Build debug APK
-        run: npm run build:debug
+        run: cd android && ./gradlew assembleDebug
       
       - name: Build release APK
-        run: npm run build:release
+        run: cd android && ./gradlew assembleRelease
       
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
