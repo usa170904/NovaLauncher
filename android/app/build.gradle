@@ -57,7 +57,7 @@ react {
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -84,24 +84,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
-        
-        // Multiline string for proper JSON configuration
-        manifestPlaceholders = [
-            appName: "@string/app_name"
-        ]
     }
     
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-        }
-        
-        release {
-            // Configure your release signing key here
-            // For now using debug config, replace with your actual release key
             storeFile file('debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'
@@ -114,37 +100,13 @@ android {
             signingConfig signingConfigs.debug
             debuggable true
             minifyEnabled false
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
         
         release {
-            // Signing configuration for release builds
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            shrinkResources enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            
-            // Optimize the build
-            ndk {
-                debugSymbolLevel 'full'
-            }
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-    }
-    
-    // Lint options to suppress warnings
-    lintOptions {
-        disable 'MissingTranslation', 'ExtraTranslation'
-        abortOnError false
-    }
-    
-    // Enable compose if needed in future
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.1'
-    }
-    
-    packagingOptions {
-        exclude 'META-INF/proguard/androidx-*.pro'
-        exclude 'META-INF/androidx.*.version'
     }
 }
 
@@ -157,17 +119,4 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    
-    // AndroidX dependencies
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    
-    // Kotlin standard library
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:' + rootProject.ext.kotlinVersion
-    
-    // Testing dependencies
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

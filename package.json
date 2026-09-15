@@ -8,7 +8,7 @@
     "android": "react-native run-android",
     "build:debug": "cd android && ./gradlew assembleDebug",
     "build:release": "cd android && ./gradlew assembleRelease",
-    "clean": "cd android && ./gradlew clean",
+    "clean": "cd android && ./gradlew clean && rm -rf node_modules && npm install",
     "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
