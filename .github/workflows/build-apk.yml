@@ -36,9 +36,8 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          api-level: 35
-          build-tools-version: 35.0.0
-          ndk-version: 26.1.10909125
+          accept-android-sdk-licenses: true
+          packages: 'build-tools;35.0.0 platforms;android-35 ndk;26.1.10909125'
       
       - name: Install dependencies
         run: npm install
