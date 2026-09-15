@@ -11,8 +11,6 @@ android/*.iml
 android/local.properties
 android/app/build/
 android/app/.cxx/
-android/gradlew
-android/gradlew.bat
 
 # IDE
 .vscode/
